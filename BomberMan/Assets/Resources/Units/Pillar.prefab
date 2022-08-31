@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6280164638903133369}
   - component: {fileID: 62398200337741759}
   - component: {fileID: 5184252657521841703}
-  - component: {fileID: 2427555875926202242}
+  - component: {fileID: 8810451994813565237}
   m_Layer: 0
-  m_Name: IndestructibleBlock
+  m_Name: Pillar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,7 +111,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &2427555875926202242
+--- !u!114 &8810451994813565237
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,15 +120,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 9005960710131230929}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 460808b2b5754a0c864e1e09d210dbed, type: 3}
+  m_Script: {fileID: 11500000, guid: e1a27771c49245fa89770595109ba70c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 1
   sprites:
-  - {fileID: -8377130690987618698, guid: 1ea0944abf604c742b52879577844c2e, type: 3}
-  - {fileID: -4684333735789482159, guid: 1ea0944abf604c742b52879577844c2e, type: 3}
-  - {fileID: -5062486230716756072, guid: 1ea0944abf604c742b52879577844c2e, type: 3}
-  - {fileID: 4099902767569298868, guid: 1ea0944abf604c742b52879577844c2e, type: 3}
+  - {fileID: 8933607801220796041, guid: 1ea0944abf604c742b52879577844c2e, type: 3}
 --- !u!1001 &8405651343527829689
 PrefabInstance:
   m_ObjectHideFlags: 0

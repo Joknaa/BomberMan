@@ -5,10 +5,14 @@ using UnityEngine;
 
 namespace BomberMan {
     public class GridManager : MonoBehaviour {
-        private int height = 10;
-        private int width = 15;
+        public int height = 10;
+        public int width = 15;
+        private Camera _mainCamera;
+        private Tile[,] _gridTiles;
 
         void Start() {
+            _mainCamera = Camera.main;
+            _gridTiles = new Tile[width, height];
             GenerateGrid();
             GenerateUnits();
         }
@@ -20,25 +24,43 @@ namespace BomberMan {
                 for (int x = 0; x < width; x++) {
 
                     var randomTile = GetRandomTileByWeight(tiles); ; 
-                    GameObject tile = Instantiate(randomTile, new Vector3(x, y), Quaternion.identity, transform);
-                    tile.GetComponent<Tile>().Init(x, y);
+                    GameObject tileInstance = Instantiate(randomTile, new Vector3(x, y), Quaternion.identity, transform);
+                    // tileInstance.GetComponent<Tile>().Init(x, y);
+                    Tile tile = tileInstance.GetComponent<Tile>();
+                    tile.Init(x, y);
                 }
             }
-
-            Camera.main.transform.position = new Vector3(width * 0.5f - 0.5f, height * 0.5f - 0.5f, -10);
+            _mainCamera.transform.position = new Vector3(width * 0.5f - 0.5f, height * 0.5f - 0.5f, -10);
         }
         
         private void GenerateUnits() {
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    if (i == 0 || i == height - 1 || j == 0 || j == width - 1) {
-                        GameObject unit = Instantiate(Resources.LoadAll<Tile>("Units").ToList().Random().gameObject);
-                        unit.transform.position = new Vector3(j, i, 0);
-                        unit.transform.parent = transform;
-                        unit.GetComponent<Tile>().Init(i, j);
-
-                    }
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    GenerateBorders(y, x);
+                    GeneratePillars(y, x);
                 }
+            }
+         
+
+            void GenerateBorders(int y, int x) {
+                bool isBorder = y == 0 || y == height - 1 || x == 0 || x == width - 1;
+                if (!isBorder) return;
+                SetupTile(PathVariables.Border, x, y);
+            }
+            
+            void GeneratePillars(int y, int x) {
+                bool isBorder = y == 0 || y == height - 1 || x == 0 || x == width - 1;
+                if (isBorder) return;
+                if (y % 2 == 1 || x % 2 == 1) return;
+                SetupTile(PathVariables.Pillar, x, y);
+            }
+
+            void SetupTile(string tilePath, int x, int y) {
+                GameObject unit = Instantiate(Resources.LoadAll<Tile>(tilePath).ToList().Random().gameObject, new Vector3(x, y, 0), Quaternion.identity, transform);
+                Tile tile = unit.GetComponent<Tile>();
+                tile.Init(x, y);
+                tile.SetFree(false);
+                _gridTiles[x, y] = tile;
             }
         }
 

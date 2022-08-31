@@ -10,14 +10,14 @@ namespace BomberMan {
 
         private SpriteRenderer _spriteRenderer;
         private GameObject _highlight;
-        
+        private bool _isFree;
 
         protected virtual void Awake() {
             _highlight = transform.GetChild(0).gameObject;
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        public virtual void Init(int x, int y) {
+        public void Init(int x, int y) {
             name = $"Tile {x}, {y}";
             _spriteRenderer.sprite = sprites.Random();
         }
@@ -27,5 +27,7 @@ namespace BomberMan {
         public void OnMouseExit() => _highlight.SetActive(false);
         
         public float GetWeight() => weight;
+        public bool IsFree() => _isFree;
+        public void SetFree(bool isFree) => _isFree = isFree;
     }
 }
