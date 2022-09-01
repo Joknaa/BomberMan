@@ -10,8 +10,8 @@ namespace OknaaEXTENSIONS {
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static T Random<T>(this IList<T> list) {
-            return list[UnityEngine.Random.Range(0, list.Count)];
+        public static T Random<T>(this IList<T> list, T defaultValue = default(T)) {
+            return list.Count != 0 ? list[UnityEngine.Random.Range(0, list.Count)] : defaultValue;
         }
 
         /// <summary>

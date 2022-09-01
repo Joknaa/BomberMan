@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 62398200337741759}
   - component: {fileID: 5184252657521841703}
   - component: {fileID: 1101949177225968704}
+  - component: {fileID: 6523883940292982190}
   m_Layer: 0
   m_Name: DestructibleBlock
-  m_TagString: Untagged
+  m_TagString: Destructible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -8377130690987618698, guid: 1ea0944abf604c742b52879577844c2e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -126,6 +127,27 @@ MonoBehaviour:
   weight: 1
   sprites:
   - {fileID: -8637159173488095169, guid: 1ea0944abf604c742b52879577844c2e, type: 3}
+--- !u!50 &6523883940292982190
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9005960710131230929}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.0001
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &8405651343527829689
 PrefabInstance:
   m_ObjectHideFlags: 0
