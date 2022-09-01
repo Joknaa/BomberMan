@@ -8,6 +8,10 @@ namespace BomberMan {
         [SerializeField] protected float weight;
         [SerializeField] protected List<Sprite> sprites;
 
+        protected int _x;
+        protected int _y;
+        protected GridManager _gridManager;
+        
         private SpriteRenderer _spriteRenderer;
         private GameObject _highlight;
         private bool _isFree;
@@ -17,8 +21,11 @@ namespace BomberMan {
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        public void Init(int x, int y) {
-            name = $"Tile {x}, {y}";
+        public void Init(GridManager gridManager, string name, int x, int y) {
+            gameObject.name = $"Tile {x}, {y} : {name}";
+            _x = x;
+            _y = y;
+            _gridManager = gridManager;
             _spriteRenderer.sprite = sprites.Random();
         }
 

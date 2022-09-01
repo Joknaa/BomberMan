@@ -1,13 +1,17 @@
 ﻿namespace BomberMan {
-    public class PathVariables {
+    public static class PathVariables {
+        
+        private const string PlayerPath = "Units/Player";
+        private const string DestructibleBlockPath = "Units/DestructibleBlock";
+        private const string BorderPath = "Units/Border";
+        private const string PillarPath = "Units/Pillar";
+        private const string EnemiesFolderPath = "Units/Enemies";
+        
 
-        private const string DESTRUCTIBLE_BLOCK_PATH = "Units/DestructibleBlock";
-        private const string BORDER_PATH = "Units/Border";
-        private const string PILLAR_PATH = "Units/Pillar";
-
-        public static string DestructibleBlock => DESTRUCTIBLE_BLOCK_PATH;
-        public static string Border => BORDER_PATH;
-        public static string Pillar => PILLAR_PATH;
-
+        public static string Player => PlayerPath;
+        public static string DestructibleBlock => DestructibleBlockPath;
+        public static string Border => BorderPath;
+        public static string Pillar => PillarPath;
+        public static string EnemiesFolder => EnemiesFolderPath;
     }
 }
