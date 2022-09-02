@@ -7,6 +7,9 @@
         private const string PillarPath = "Units/Pillar";
         private const string EnemiesFolderPath = "Units/Enemies";
         private const string BombPath = "Units/Bomb";
+        
+        
+        private const string Explosion01EffectPath = "Effects/Explosion01";
 
 
         public static string Player => PlayerPath;
@@ -15,5 +18,9 @@
         public static string Pillar => PillarPath;
         public static string EnemiesFolder => EnemiesFolderPath;
         public static string Bomb => BombPath;
+        
+        
+        
+        public static string Explosion01Effect => Explosion01EffectPath;
     }
 }

@@ -123,6 +123,7 @@ MonoBehaviour:
   weight: 0
   sprites:
   - {fileID: 857779327251732012, guid: 1ea0944abf604c742b52879577844c2e, type: 3}
+  IsDestoyeable: 0
   moveSpeed: 2
   bombCount: 1
   bombRange: 3

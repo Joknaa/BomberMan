@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3789503903538993547}
   m_Layer: 0
   m_Name: Bomb
-  m_TagString: Pillar
+  m_TagString: Bomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -175,6 +175,7 @@ MonoBehaviour:
   weight: 0
   sprites:
   - {fileID: -8955812619259062215, guid: 1ea0944abf604c742b52879577844c2e, type: 3}
+  IsDestoyeable: 0
 --- !u!1001 &8405651343527829689
 PrefabInstance:
   m_ObjectHideFlags: 0

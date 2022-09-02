@@ -36,5 +36,7 @@ namespace BomberMan {
         public float GetWeight() => weight;
         public bool IsFree() => _isFree;
         public void SetFree(bool isFree) => _isFree = isFree;
+        public int GetX() => _x;
+        public int GetY() => _y;
     }
 }

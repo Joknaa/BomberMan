@@ -49,22 +49,12 @@ namespace BomberMan {
             return other.CompareTag("Border") ||
                    other.CompareTag("Pillar") ||
                    other.CompareTag("Destructible") ||
-                   // other.CompareTag("Enemy") ||
+                   other.CompareTag("Bomb") ||
                    other.CompareTag("Player");
         }
 
         private void FixedUpdate() {
             var position = _rigidbody.position;
-            /*_moveDirection = _randomDirection switch {
-                1 => Vector2.up,
-                2 => Vector2.right,
-                3 => Vector2.down,
-                4 => Vector2.left,
-                _ => _moveDirection
-            };*/
-
-            // transform.Translate(_moveDirection * (moveSpeed * Time.deltaTime));
-            
             _rigidbody.MovePosition(position + _moveDirection * (moveSpeed * Time.fixedDeltaTime));
             FindFreeDirection();
         }
@@ -74,16 +64,17 @@ namespace BomberMan {
 
             if (collision.gameObject.CompareTag("Border") ||
                 collision.gameObject.CompareTag("Pillar") ||
-                collision.gameObject.CompareTag("Enemy") ||
                 collision.gameObject.CompareTag("Destructible")) {
                 FindFreeDirection();
+            }
+            if (collision.gameObject.CompareTag("Player")) {
+                _gridManager.RestartScene();
+            }
+        }
 
-
-                /*if (_allowRandomDirection) {
-                    _randomDirection = Random.Range(1, 5);
-                    _allowRandomDirection = false;
-                    Invoke(nameof(AllowRandomDirection), randomDirectionCoolDown);
-                }*/
+        private void OnTriggerEnter2D(Collider2D col) {
+            if (col.CompareTag("Explosion")) {
+                Destroy(gameObject);
             }
         }
 
@@ -91,38 +82,10 @@ namespace BomberMan {
             
             var position = transform.position;
              
-            
-            
-            
             var hit = Physics2D.Raycast(position + (Vector3)_moveDirection * 0.5f, _moveDirection, raycastDistance);
             if (hit.collider != null && CollidedWithObstacle(hit)) {
                 _moveDirection = -_moveDirection;
             }
-            
-         
-
-            /*
-            if (hitUp.collider == null && upAllowed) {
-                _moveDirection = Vector2.up;
-                upAllowed = false;
-            }
-            else if (hitDown.collider == null && downAllowed) {
-                _moveDirection = Vector2.down;
-                downAllowed = false;
-            }
-            else if (hitLeft.collider == null && leftAllowed) {
-                _moveDirection = Vector2.left;
-                leftAllowed = false;
-            }
-            else if (hitRight.collider == null && rightAllowed) {
-                _moveDirection = Vector2.right;
-                rightAllowed = false;
-            }
-            
-            if (hitUp.collider != null && !upAllowed) upAllowed = true;
-            if (hitDown.collider != null && !downAllowed) downAllowed = true;
-            if (hitLeft.collider != null && !leftAllowed) leftAllowed = true;
-            if (hitRight.collider != null && !rightAllowed) rightAllowed = true;*/
         }
     }
 }

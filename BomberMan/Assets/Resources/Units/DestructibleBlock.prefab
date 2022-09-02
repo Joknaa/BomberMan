@@ -127,6 +127,7 @@ MonoBehaviour:
   weight: 1
   sprites:
   - {fileID: -8637159173488095169, guid: 1ea0944abf604c742b52879577844c2e, type: 3}
+  IsDestoyeable: 0
 --- !u!50 &6523883940292982190
 Rigidbody2D:
   serializedVersion: 4

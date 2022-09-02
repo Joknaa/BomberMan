@@ -8,6 +8,8 @@ TagManager:
   - Border
   - Pillar
   - Destructible
+  - Explosion
+  - Bomb
   layers:
   - Default
   - TransparentFX

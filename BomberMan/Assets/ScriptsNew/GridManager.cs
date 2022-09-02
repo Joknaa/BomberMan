@@ -20,7 +20,7 @@ namespace BomberMan {
         private Tile[,] _gridTiles;
         private int _destructiblesInstantiated = 0;
         private int _enemiesInstantiated = 0;
-        private List<Tile> _tiles;
+        private List<Tile> _tileTypes;
         private List<Unit> _enemies;
 
         private void Start() {
@@ -30,8 +30,10 @@ namespace BomberMan {
             GenerateGrid();
         }
 
+        #region GridGeneration
+
         private void GenerateGrid() {
-            _tiles = Resources.LoadAll<Tile>("Tiles").ToList();
+            _tileTypes = Resources.LoadAll<Tile>("Tiles").ToList();
             _enemies = Resources.LoadAll<Unit>(PathVariables.EnemiesFolder).ToList();
 
             for (int y = 0; y < height; y++) {
@@ -51,7 +53,7 @@ namespace BomberMan {
 
 
         private void GenerateTiles(int y, int x) {
-            var randomTile = GetRandomTileByWeight(_tiles);
+            var randomTile = GetRandomTileByWeight(_tileTypes);
             GameObject tileInstance = Instantiate(randomTile, new Vector3(x, y), Quaternion.identity, transform);
             Tile tile = tileInstance.GetComponent<Tile>();
             tile.Init(this, randomTile.name, x, y);
@@ -127,9 +129,24 @@ namespace BomberMan {
             return tiles[0].gameObject;
         }
 
+        #endregion
+
      
-        public Vector2 PositionToTileCoord(Vector3 position) => new Vector2((int)position.x, (int)position.y);
-        public Tile GetTile(Vector2 tileCoord) => _gridTiles[(int)tileCoord.x, (int)tileCoord.y];
+        public Vector2Int GetCoordFromPosition(Vector3 position) => new Vector2Int(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.y));
+        public Tile GetTileFromCoord(int x, int y) => _gridTiles[x, y];
+        
+        public List<Tile> GetSurroundingTiles(Tile tile) {
+            var tilesList = new List<Tile>();
+            var x = tile.GetX();
+            var y = tile.GetY();
+
+            if (x > 0) tilesList.Add(_gridTiles[x - 1, y]);
+            if (x < width - 1) tilesList.Add(_gridTiles[x + 1, y]);
+            if (y > 0) tilesList.Add(_gridTiles[x, y - 1]);
+            if (y < height - 1) tilesList.Add(_gridTiles[x, y + 1]);
+
+            return tilesList;
+        }
 
         public void PlaceBomb(Vector3 transformPosition, int bombRange, int bombTimer) {
             var bombGameObject = Resources.Load<Tile>(PathVariables.Bomb).gameObject;
