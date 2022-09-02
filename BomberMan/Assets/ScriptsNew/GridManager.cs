@@ -5,17 +5,14 @@ using UnityEngine.SceneManagement;
 
 namespace BomberMan {
     public class GridManager : MonoBehaviour {
-        [Header("Grid Dimensions")] 
-        public int height = 10;
+        [Header("Grid Dimensions")] public int height = 10;
         public int width = 15;
 
-        [Header("Destructible Blocks")] 
-        public int destructibleCount = 30;
+        [Header("Destructible Blocks")] public int destructibleCount = 30;
         [Range(0.0f, 1.0f)] public float destructibleSpawnChance = 0.4f;
         public int playerDestructibleSafeZoneDiameter = 2;
 
-        [Header("Enemies")] 
-        public int enemyCount = 5;
+        [Header("Enemies")] public int enemyCount = 5;
         [Range(0.0f, 1.0f)] public float enemySpawnChance = 0.4f;
         public int playerEnemySafeZoneDiameter = 2;
 
@@ -46,11 +43,12 @@ namespace BomberMan {
                     GenerateEnemies(y, x);
                 }
             }
+
             GeneratePlayer();
 
             _mainCamera.transform.position = new Vector3(width * 0.5f - 0.5f, height * 0.5f - 0.5f, -10);
         }
-        
+
 
         private void GenerateTiles(int y, int x) {
             var randomTile = GetRandomTileByWeight(_tiles);
@@ -58,17 +56,20 @@ namespace BomberMan {
             Tile tile = tileInstance.GetComponent<Tile>();
             tile.Init(this, randomTile.name, x, y);
         }
+
         private void GenerateBorders(int y, int x) {
             bool isBorder = y == 0 || y == height - 1 || x == 0 || x == width - 1;
             if (!isBorder) return;
             SetupUnite(Resources.Load<Tile>(PathVariables.Border).gameObject, x, y);
         }
+
         private void GeneratePillars(int y, int x) {
             bool isBorder = y == 0 || y == height - 1 || x == 0 || x == width - 1;
             if (isBorder) return;
             if (y % 2 == 1 || x % 2 == 1) return;
             SetupUnite(Resources.Load<Tile>(PathVariables.Pillar).gameObject, x, y);
         }
+
         private void GenerateDestructibleBlocks(int y, int x) {
             if (_destructiblesInstantiated >= destructibleCount) return; // if all destructible blocks are instantiated, do not generate any more
             if (IsPlayerSaveZone(playerDestructibleSafeZoneDiameter, y, x))
@@ -79,6 +80,7 @@ namespace BomberMan {
             SetupUnite(Resources.Load<Tile>(PathVariables.DestructibleBlock).gameObject, x, y);
             _destructiblesInstantiated++;
         }
+
         private void GenerateEnemies(int y, int x) {
             if (_enemiesInstantiated >= enemyCount) return;
             if (IsPlayerSaveZone(playerEnemySafeZoneDiameter, y, x)) return;
@@ -88,6 +90,7 @@ namespace BomberMan {
             SetupUnite(_enemies[_enemiesInstantiated].gameObject, x, y);
             _enemiesInstantiated++;
         }
+
         private void GeneratePlayer() {
             SetupUnite(Resources.Load<Tile>(PathVariables.Player).gameObject, 1, height - 2);
         }
@@ -109,7 +112,7 @@ namespace BomberMan {
 
             return x >= playerSpawnX && x <= playerSafeZoneMaxX && y <= playerSpawnY && y >= playerSafeZoneMaxY;
         }
-
+        
         private GameObject GetRandomTileByWeight(List<Tile> tiles) {
             float totalWeight = 0;
             foreach (var tile in tiles) totalWeight += tile.GetWeight();
@@ -124,10 +127,24 @@ namespace BomberMan {
             return tiles[0].gameObject;
         }
 
-        // temporary
-        public void RestartScene() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+     
+        public Vector2 PositionToTileCoord(Vector3 position) => new Vector2((int)position.x, (int)position.y);
+        public Tile GetTile(Vector2 tileCoord) => _gridTiles[(int)tileCoord.x, (int)tileCoord.y];
 
-        public void MoveUnit(Unit unitToMove, Vector2 moveDirection, int moveSpeed) {
+        public void PlaceBomb(Vector3 transformPosition, int bombRange, int bombTimer) {
+            var bombGameObject = Resources.Load<Tile>(PathVariables.Bomb).gameObject;
+            var positionX = Mathf.RoundToInt(transformPosition.x);
+            var positionY = Mathf.RoundToInt(transformPosition.y);
+            var position = new Vector3(positionX, positionY, 0);
+            
+            var unitGameObject = Instantiate(bombGameObject, position, Quaternion.identity, transform);
+           
+            var bombScript = unitGameObject.GetComponent<Bomb>();
+            bombScript.Init(this, bombGameObject.name, (int)position.x, (int)position.y, bombTimer, bombRange);
         }
+        
+        
+        
+        public void RestartScene() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

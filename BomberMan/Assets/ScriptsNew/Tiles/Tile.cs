@@ -21,7 +21,7 @@ namespace BomberMan {
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        public void Init(GridManager gridManager, string name, int x, int y) {
+        public virtual void Init(GridManager gridManager, string name, int x, int y) {
             gameObject.name = $"Tile {x}, {y} : {name}";
             _x = x;
             _y = y;

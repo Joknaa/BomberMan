@@ -53,6 +53,9 @@ TextureImporter:
   - first:
       213: 8933607801220796041
     second: Tile_Pillar
+  - first:
+      213: -8955812619259062215
+    second: Tile_Bomb
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -511,7 +514,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -519,6 +522,27 @@ TextureImporter:
       bones: []
       spriteID: 98e8c6286fc8afb70800000000000000
       internalID: 8933607801220796041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tile_Bomb
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9385a1a6fdf86b380800000000000000
+      internalID: -8955812619259062215
       vertices: []
       indices: 
       edges: []

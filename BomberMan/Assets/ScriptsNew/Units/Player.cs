@@ -45,6 +45,7 @@ namespace BomberMan {
 
         private void PlaceBomb() {
             print("Bomb Placed");
+            _gridManager.PlaceBomb(transform.position, bombRange, bombTimer);
         }
     }
 }

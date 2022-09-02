@@ -6,12 +6,14 @@
         private const string BorderPath = "Units/Border";
         private const string PillarPath = "Units/Pillar";
         private const string EnemiesFolderPath = "Units/Enemies";
-        
+        private const string BombPath = "Units/Bomb";
+
 
         public static string Player => PlayerPath;
         public static string DestructibleBlock => DestructibleBlockPath;
         public static string Border => BorderPath;
         public static string Pillar => PillarPath;
         public static string EnemiesFolder => EnemiesFolderPath;
+        public static string Bomb => BombPath;
     }
 }
