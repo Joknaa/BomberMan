@@ -32,11 +32,14 @@ namespace BomberMan {
 
             // Explode in all directions
             List<Vector2Int> directions = new List<Vector2Int>() { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
-
+            bool MetAnObstacle = false;
+            
+            PlayExplosionEffect(originX, originY);
             for (int i = 0; i < 4; i++) {
                 var direction = directions[i];
                 var currentX = originX;
                 var currentY = originY;
+                
                 for (int j = 0; j < bombRange; j++) {
                     currentX += direction.x;
                     currentY += direction.y;
@@ -44,29 +47,27 @@ namespace BomberMan {
                     var tile = _gridManager.GetTileFromCoord(currentX, currentY);
 
                     if (tile == null) {
-                        Destroy(Instantiate(Resources.Load<GameObject>(PathVariables.Explosion01Effect), new Vector2(currentX, currentY), Quaternion.identity), 0.2f);
+                        PlayExplosionEffect(currentX, currentY);
                         continue;
                     }
 
-
                     if (tile.CompareTag("Destructible")) {
-                        Destroy(Instantiate(Resources.Load<GameObject>(PathVariables.Explosion01Effect), tile.transform.position, Quaternion.identity), 0.2f);
-                        Destroy(tile.gameObject);
-                    }
-                    else if (tile.CompareTag("Player")) {
-                        Destroy(Instantiate(Resources.Load<GameObject>(PathVariables.Explosion01Effect), tile.transform.position, Quaternion.identity), 0.2f);
-                        _gridManager.RestartScene();
+                        PlayExplosionEffect(currentX, currentY);
+                        Destroy(tile.gameObject);    
                         break;
                     }
-                    else if (tile.CompareTag("Enemy")) {
-                        Destroy(Instantiate(Resources.Load<GameObject>(PathVariables.Explosion01Effect), tile.transform.position, Quaternion.identity), 0.2f);
-                        Destroy(tile.gameObject);
+
+                    if (tile.CompareTag("Border") || tile.CompareTag("Pillar")) {
                         break;
                     }
                 }
             }
-
+            _gridManager.Player.bombCount++;
             Destroy(gameObject);
+        }
+
+        private void PlayExplosionEffect(int x, int y) {
+            Destroy(Instantiate(Resources.Load<GameObject>(PathVariables.Explosion01Effect), new Vector2(x, y), Quaternion.identity), 0.2f);
         }
 
         private void DestroyTile(Tile tile) {

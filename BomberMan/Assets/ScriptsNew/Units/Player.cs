@@ -25,11 +25,11 @@ namespace BomberMan {
             var verticalInput = Input.GetAxisRaw("Vertical");
             _horizontalDirection = horizontalInput > 0 ? Vector2.right : horizontalInput < 0 ? Vector2.left : Vector2.zero;
             _verticalDirection = verticalInput > 0 ? Vector2.up : verticalInput < 0 ? Vector2.down : Vector2.zero;
-            // _moveDirection = _horizontalDirection == Vector2.zero ? _verticalDirection : _horizontalDirection;
             _moveDirection = _horizontalDirection + _verticalDirection;
             
-            if (Input.GetKeyDown(KeyCode.Space)) {
+            if (Input.GetKeyDown(KeyCode.Space) && bombCount > 0) {
                 PlaceBomb();
+                bombCount--;
             }
         }
 
@@ -38,14 +38,17 @@ namespace BomberMan {
         }
 
         private void Move() {
-            // _gridManager.MoveUnit(this, _moveDirection, moveSpeed);
-            // transform.Translate(_moveDirection * (moveSpeed * Time.deltaTime));
             _rigidbody.velocity = _moveDirection * (moveSpeed * Time.fixedDeltaTime * 100) ;
         }
 
         private void PlaceBomb() {
             print("Bomb Placed");
             _gridManager.PlaceBomb(transform.position, bombRange, bombTimer);
+        }
+
+        public void OnDeath() {
+            GameStateController.Instance.SetState(GameState.GameOver);
+            Destroy(gameObject);
         }
     }
 }

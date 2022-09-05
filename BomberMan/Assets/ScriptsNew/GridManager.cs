@@ -16,6 +16,8 @@ namespace BomberMan {
         [Range(0.0f, 1.0f)] public float enemySpawnChance = 0.4f;
         public int playerEnemySafeZoneDiameter = 2;
 
+        [HideInInspector] public Player Player;
+
         private Camera _mainCamera;
         private Tile[,] _gridTiles;
         private int _destructiblesInstantiated = 0;
@@ -24,6 +26,7 @@ namespace BomberMan {
         private List<Unit> _enemies;
 
         private void Start() {
+            Enemy.EnemyCount = enemyCount;
             _mainCamera = Camera.main;
             _gridTiles = new Tile[width, height];
 
@@ -94,15 +97,16 @@ namespace BomberMan {
         }
 
         private void GeneratePlayer() {
-            SetupUnite(Resources.Load<Tile>(PathVariables.Player).gameObject, 1, height - 2);
+            Player = SetupUnite(Resources.Load<Tile>(PathVariables.Player).gameObject, 1, height - 2).GetComponent<Player>();
         }
 
-        private void SetupUnite(GameObject tileGameObject, int x, int y) {
+        private GameObject SetupUnite(GameObject tileGameObject, int x, int y) {
             GameObject unit = Instantiate(tileGameObject, new Vector3(x, y, 0), Quaternion.identity, transform);
             Tile tile = unit.GetComponent<Tile>();
             tile.Init(this, tileGameObject.name, x, y);
             tile.SetFree(false);
             _gridTiles[x, y] = tile;
+            return unit;
         }
 
         private bool IsPlayerSaveZone(int saveZoneDiameter, int y, int x) {
@@ -159,9 +163,7 @@ namespace BomberMan {
             var bombScript = unitGameObject.GetComponent<Bomb>();
             bombScript.Init(this, bombGameObject.name, (int)position.x, (int)position.y, bombTimer, bombRange);
         }
-        
-        
-        
-        public void RestartScene() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        public static void RestartScene() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

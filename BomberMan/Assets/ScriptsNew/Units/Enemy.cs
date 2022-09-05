@@ -10,16 +10,12 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace BomberMan {
     public class Enemy : Unit {
+        public static int EnemyCount = 5;
         public int moveSpeed;
         public float raycastDistance = 1f;
 
         private Rigidbody2D _rigidbody;
         private Vector2 _moveDirection;
-        
-        bool upAllowed = true;
-        bool rightAllowed = true;
-        bool downAllowed = true;
-        bool leftAllowed = true;
 
         private void Start() {
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -39,20 +35,8 @@ namespace BomberMan {
             if (hitRight.collider == null) possibleDirections.Add(Vector2.right);
 
             _moveDirection = possibleDirections.Random(Vector3.zero);
-            
         }
-
-        private void Update() { }
-
-        private bool CollidedWithObstacle(RaycastHit2D hit) {
-            GameObject other = hit.collider.gameObject;
-            return other.CompareTag("Border") ||
-                   other.CompareTag("Pillar") ||
-                   other.CompareTag("Destructible") ||
-                   other.CompareTag("Bomb") ||
-                   other.CompareTag("Player");
-        }
-
+        
         private void FixedUpdate() {
             var position = _rigidbody.position;
             _rigidbody.MovePosition(position + _moveDirection * (moveSpeed * Time.fixedDeltaTime));
@@ -60,15 +44,8 @@ namespace BomberMan {
         }
 
         private void OnCollisionEnter2D(Collision2D collision) {
-            Debug.Log("Collided with " + collision.gameObject.name);
-
-            if (collision.gameObject.CompareTag("Border") ||
-                collision.gameObject.CompareTag("Pillar") ||
-                collision.gameObject.CompareTag("Destructible")) {
-                FindFreeDirection();
-            }
             if (collision.gameObject.CompareTag("Player")) {
-                _gridManager.RestartScene();
+                GameStateController.Instance.SetState(GameState.GameOver);
             }
         }
 
@@ -79,13 +56,30 @@ namespace BomberMan {
         }
 
         private void FindFreeDirection() {
-            
             var position = transform.position;
              
             var hit = Physics2D.Raycast(position + (Vector3)_moveDirection * 0.5f, _moveDirection, raycastDistance);
             if (hit.collider != null && CollidedWithObstacle(hit)) {
                 _moveDirection = -_moveDirection;
             }
+        }
+
+        public void OnDeath() {
+            EnemyCount--;
+            print("OnDeath .. " + EnemyCount + " remains");
+
+            if (EnemyCount == 0) GameStateController.Instance.SetState(GameState.GameWon);
+
+            Destroy(gameObject);
+        }
+        
+        private bool CollidedWithObstacle(RaycastHit2D hit) {
+            GameObject other = hit.collider.gameObject;
+            return other.CompareTag("Border") ||
+                   other.CompareTag("Pillar") ||
+                   other.CompareTag("Destructible") ||
+                   other.CompareTag("Bomb") ||
+                   other.CompareTag("Player");
         }
     }
 }

@@ -126,7 +126,7 @@ MonoBehaviour:
   IsDestoyeable: 0
   moveSpeed: 2
   bombCount: 1
-  bombRange: 3
+  bombRange: 4
   bombTimer: 1
 --- !u!60 &4942866066995871909
 PolygonCollider2D:
