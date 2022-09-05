@@ -22,6 +22,7 @@ namespace BomberMan {
         private Tile[,] _gridTiles;
         private int _destructiblesInstantiated = 0;
         private int _enemiesInstantiated = 0;
+        private float cameraOffset = 0.5f;
         private List<Tile> _tileTypes;
         private List<Unit> _enemies;
 
@@ -51,7 +52,7 @@ namespace BomberMan {
 
             GeneratePlayer();
 
-            _mainCamera.transform.position = new Vector3(width * 0.5f - 0.5f, height * 0.5f - 0.5f, -10);
+            _mainCamera.transform.position = new Vector3(width * 0.5f - 0.5f, height * 0.5f - 0.5f + cameraOffset, -10);
         }
 
 

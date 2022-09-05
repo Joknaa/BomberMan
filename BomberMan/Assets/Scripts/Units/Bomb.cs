@@ -52,8 +52,8 @@ namespace BomberMan {
                     }
 
                     if (tile.CompareTag("Destructible")) {
-                        PlayExplosionEffect(currentX, currentY);
-                        Destroy(tile.gameObject);    
+                        PlayExplosionEffect(currentX, currentY); 
+                        ((DestructibleBlock) tile).Destroy();    
                         break;
                     }
 
@@ -69,16 +69,5 @@ namespace BomberMan {
         private void PlayExplosionEffect(int x, int y) {
             Destroy(Instantiate(Resources.Load<GameObject>(PathVariables.Explosion01Effect), new Vector2(x, y), Quaternion.identity), 0.2f);
         }
-
-        private void DestroyTile(Tile tile) {
-            if (tile.CompareTag("Destructible")) {
-                // Destroy(Instantiate(Resources.Load<GameObject>(PathVariables.ExplosionEffect), tile.transform.position, Quaternion.identity), 0.2f);
-                Destroy(tile.gameObject);
-            }
-        }
-        
-        
-
-        public bool IsDestructible { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace BomberMan {
         public static int EnemyCount = 5;
         public int moveSpeed;
         public float raycastDistance = 1f;
+        public int killScore = 100;
 
         private Rigidbody2D _rigidbody;
         private Vector2 _moveDirection;
@@ -66,10 +67,10 @@ namespace BomberMan {
 
         public void OnDeath() {
             EnemyCount--;
-            print("OnDeath .. " + EnemyCount + " remains");
-
             if (EnemyCount == 0) GameStateController.Instance.SetState(GameState.GameWon);
-
+            
+            print("OnDeath .. " + EnemyCount + " remains");
+            ScoreController.Instance.AddScore(killScore);
             Destroy(gameObject);
         }
         
