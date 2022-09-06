@@ -25,17 +25,18 @@ namespace BomberMan {
                 case GameState.Paused:
                 case GameState.GameOver:
                     DisplayUI(gameOver: true, hud: true);
+                    print("GameOver");
                     _leaderBoardController.DisplayLeaderBoard(ScoreController.Instance.GetScore());
                     break;
                 case GameState.GameWon:
                     DisplayUI(gameWon: true, hud: true);
+                    print("GameWon");
                     _leaderBoardController.DisplayLeaderBoard(ScoreController.Instance.GetScore());
                     break;
             }
         }
 
         private void DisplayUI(bool startingMenu = false, bool hud = false, bool gameOver = false, bool gameWon = false) {
-            print("Displaying UI for: " + (startingMenu ? "Starting Menu" : gameOver ? "Game Over" : gameWon ? "Game Won" : "Unknown"));
             InGameHUD.SetActive(hud);
             GameOverPopUp.SetActive(gameOver);
             GameWonPopUp.SetActive(gameWon);

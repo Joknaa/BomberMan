@@ -9,10 +9,6 @@ namespace ScoreSystem {
         
         private static string _leaderBoardName = "LeaderBoard";
         private static List<PlayerScoreData> _defaultPlayerScoreList = new List<PlayerScoreData>() {
-            new PlayerScoreData(0, "Oknaa"),
-            new PlayerScoreData(0, "Oknaa"),
-            new PlayerScoreData(0, "Oknaa"),
-            new PlayerScoreData(0, "Oknaa")
         };
 
         

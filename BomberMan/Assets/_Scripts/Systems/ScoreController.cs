@@ -6,30 +6,22 @@ namespace BomberMan {
         public static ScoreController Instance => _instance ??= new ScoreController();
         private static ScoreController _instance;
         public event Action<int> OnScoreChanged; 
-
-        public ScoreController() {
-            GameStateController.Instance.OnGameStateChanged += OnGameStateChanged;
+        private int _score = 0;
+        
+        private ScoreController() {
+            _score = 0;
         }
-
-        private void OnGameStateChanged(GameState currentGameState) {
-            if (currentGameState == GameState.GameOver || currentGameState == GameState.GameWon) {
-                
-            }
-        }
-
-        private int Score {
-            get => PlayerPrefs.GetInt("Score", 0);
-            set => PlayerPrefs.SetInt("Score", value);
-        }
-
+        
         public void AddScore(int addedScore) {
-            Score += addedScore;
-            OnScoreChanged?.Invoke(Score);
+            _score += addedScore;
+            OnScoreChanged?.Invoke(_score);
         }
 
-        public void ResetScore() => Score = 0;
-        public int GetScore() => Score;
+        public int GetScore() => _score;
         
-        
+        public void ResetScore() {
+            _score = 0;
+            OnScoreChanged?.Invoke(_score);
+        }
     }
 }

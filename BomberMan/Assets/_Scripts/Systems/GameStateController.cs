@@ -19,5 +19,9 @@ namespace BomberMan {
             _currentState = state;
             OnGameStateChanged?.Invoke(_currentState);
         }
+        
+        public GameState GetState() {
+            return _currentState;
+        }
     }
 }

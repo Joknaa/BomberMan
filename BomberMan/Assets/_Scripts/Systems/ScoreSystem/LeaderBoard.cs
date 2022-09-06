@@ -33,6 +33,12 @@ namespace ScoreSystem {
                     playerScore.SetRowScore(rank, playerScoreData.playerName, playerScoreData.score);
                 }
             }
+            
+            if (_leaderBoardData.playerScoresList.Count == 0) {
+                PlayerScore playerScore = Instantiate(playerEntry, container.transform);
+                playerScore.SetRowScore(1, newPlayerScoreData, isHighScore: true);
+                _playerScore = playerScore;
+            }
 
             leaderBoardData.Save();
         }
@@ -49,6 +55,8 @@ namespace ScoreSystem {
                     break;
                 }
 
+                if (_leaderBoardData.playerScoresList.Count == 0) _isHighScore = true;
+
                 return _isHighScore;
             }
 
@@ -58,14 +66,12 @@ namespace ScoreSystem {
                 _leaderBoardData.playerScoresList.Sort((x, y) => (x.score.CompareTo(y.score)));
                 _leaderBoardData.playerScoresList.Reverse();
 
-                if (_isHighScore) _leaderBoardData.playerScoresList.RemoveAt(_leaderBoardData.playerScoresList.Count - 1);
+                if (_isHighScore && _leaderBoardData.playerScoresList.Count >= 4) _leaderBoardData.playerScoresList.RemoveAt(_leaderBoardData.playerScoresList.Count - 1);
             }
         }
-
-
+        
         public void NextButtonClick() {
-            _playerScore.UpdatePlayerScoreName();
-            
+            if (_playerScore != null) _playerScore.UpdatePlayerScoreName();
             _leaderBoardData.Save();
         }
 

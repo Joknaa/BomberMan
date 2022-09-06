@@ -45,12 +45,11 @@ namespace ScoreSystem {
         }
 
         public void UpdatePlayerScoreName() {
-            var playerNameInputText = playerNameInput.text;
-            var isEmptyOrNull = string.IsNullOrEmpty(playerNameInputText);
+            var isEmptyOrNull = string.IsNullOrEmpty(playerNameInput.text);
 
             if (!isEmptyOrNull) {
-                _PlayerScoreData.playerName = playerNameInputText;
-                LeaderBoardController.PlayerName = playerNameInputText;
+                _PlayerScoreData.playerName = playerNameInput.text;
+                LeaderBoardController.PlayerName = playerNameInput.text;
             }
             else
                 _PlayerScoreData.playerName = LeaderBoardController.PlayerName;

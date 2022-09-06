@@ -12,6 +12,7 @@ namespace BomberMan {
         }
         
         private void OnNextLevelButtonClicked() {
+            ScoreController.Instance.ResetScore();
             GridManager.RestartScene();
         }
     }

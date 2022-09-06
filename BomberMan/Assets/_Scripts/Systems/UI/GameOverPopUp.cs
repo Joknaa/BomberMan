@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 namespace BomberMan {
@@ -12,6 +13,7 @@ namespace BomberMan {
         }
         
         private void OnTryAgainButtonClicked() {
+            ScoreController.Instance.ResetScore();
             GridManager.RestartScene();
         }
     }
