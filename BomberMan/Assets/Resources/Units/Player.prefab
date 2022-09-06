@@ -107,7 +107,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   DestinationPoint: {fileID: 4352822896836710934}
-  moveSpeed: 10
+  moveSpeed: 5
   bombCount: 1
   bombRange: 4
   bombTimer: 1

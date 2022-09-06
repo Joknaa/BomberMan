@@ -11,18 +11,11 @@ namespace BomberMan {
         public int bombCount;
         public int bombRange;
         public int bombTimer;
-
-    
-        private Vector2 _moveDirection;
-        private Vector2 _horizontalDirection;
-        private Vector2 _verticalDirection;
-        private Rigidbody2D _rigidbody;
+        
         private float _detectionCircleRadius = 0.2f;
 
         private void Start() {
-            //_rigidbody = GetComponent<Rigidbody2D>();
             DestinationPoint.parent = null;
-            //DestinationPoint.position = transform.position;
         }
 
         private void Update() {
@@ -46,14 +39,6 @@ namespace BomberMan {
                 }
             }
             
-            /*
-             Old Movement
-             var horizontalInput = Input.GetAxisRaw("Horizontal");
-            var verticalInput = Input.GetAxisRaw("Vertical");
-            _horizontalDirection = horizontalInput > 0 ? Vector2.right : horizontalInput < 0 ? Vector2.left : Vector2.zero;
-            _verticalDirection = verticalInput > 0 ? Vector2.up : verticalInput < 0 ? Vector2.down : Vector2.zero;
-            _moveDirection = _horizontalDirection + _verticalDirection;*/
-            
             if (Input.GetKeyDown(KeyCode.Space) && bombCount > 0) {
                 PlaceBomb();
                 bombCount--;
@@ -66,25 +51,16 @@ namespace BomberMan {
         
         private void FixedUpdate() {
             if(GameStateController.Instance.GetState() != GameState.Playing) return;
-
-            Move();
-        }
-
-        private void Move() {
-            // _rigidbody.velocity = _moveDirection * (moveSpeed * Time.fixedDeltaTime * 100) ;
             transform.position = Vector3.MoveTowards(transform.position, DestinationPoint.position, moveSpeed * Time.deltaTime);
-
         }
-
+        
         private void PlaceBomb() {
             if(GameStateController.Instance.GetState() != GameState.Playing) return;
-
             _gridManager.PlaceBomb(transform.position, bombRange, bombTimer);
         }
 
         public void OnDeath() {
             if(GameStateController.Instance.GetState() != GameState.Playing) return;
-
             GameStateController.Instance.SetState(GameState.GameOver);
             Destroy(gameObject);
         }

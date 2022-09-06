@@ -20,7 +20,6 @@ namespace ScoreSystem {
             var defaultLeaderBoard = new LeaderBoardData(_defaultPlayerScoreList);
             var leaderBoardJson = PlayerPrefs.GetString(_leaderBoardName, JsonUtility.ToJson(defaultLeaderBoard));
             var leaderBoardData = JsonUtility.FromJson<LeaderBoardData>(leaderBoardJson);
-            Debug.Log(leaderBoardJson);
             return leaderBoardData;
         }
     }

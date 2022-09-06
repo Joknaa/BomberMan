@@ -17,7 +17,6 @@ namespace BomberMan {
         }
 
         private void OnGameStateChanged(GameState newGameState) {
-            print("OnGameStateChanged: " + newGameState);
             switch (newGameState) {
                 case GameState.Playing:
                     DisplayUI(hud: true);
