@@ -7,6 +7,16 @@ namespace BomberMan {
         private static ScoreController _instance;
         public event Action<int> OnScoreChanged; 
 
+        public ScoreController() {
+            GameStateController.Instance.OnGameStateChanged += OnGameStateChanged;
+        }
+
+        private void OnGameStateChanged(GameState currentGameState) {
+            if (currentGameState == GameState.GameOver || currentGameState == GameState.GameWon) {
+                
+            }
+        }
+
         private int Score {
             get => PlayerPrefs.GetInt("Score", 0);
             set => PlayerPrefs.SetInt("Score", value);
@@ -19,6 +29,7 @@ namespace BomberMan {
 
         public void ResetScore() => Score = 0;
         public int GetScore() => Score;
+        
         
     }
 }

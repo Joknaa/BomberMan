@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1631149228621036475
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1631149228621036477}
+  - component: {fileID: 1631149228621036476}
+  m_Layer: 0
+  m_Name: HighScoreController
+  m_TagString: HighScoreController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1631149228621036477
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631149228621036475}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 943.5197, y: 1267.8552, z: -352.85202}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1631149228621036476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631149228621036475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cca8b3700017e9a42b50e3fca851dd73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LeaderBoard:
+    playerScoresList:
+    - Score: 25
+      playerName: John
+    - Score: 37
+      playerName: Brian
+    - Score: 45
+      playerName: Emily
+    - Score: 65
+      playerName: Bob
+    - Score: 77
+      playerName: Sarah
+    - Score: 888
+      playerName: Nadir
+  scoreSysManager: {fileID: 2588861474858585265, guid: e8c2c4ca4770abd41bf0bb4dbb301798,
+    type: 3}
+  parentScoreSys: {fileID: 0}
+  gameScoreSaveName: miniGameSimulation
+  playerScoreList:
+  - Score: 500
+    playerName: Oknaa
+  - Score: 600
+    playerName: Ziad
+  - Score: 800
+    playerName: Ahmed
+  - Score: 7000
+    playerName: Amine
+  - Score: 1100
+    playerName: Haidar
+  - Score: 3000
+    playerName: Adellah

@@ -1,4 +1,5 @@
 ﻿using System;
+using ScoreSystem;
 using UnityEngine;
 
 namespace BomberMan {
@@ -7,9 +8,12 @@ namespace BomberMan {
         public GameObject GameOverPopUp;
         public GameObject GameWonPopUp;
         
+        private LeaderBoardController _leaderBoardController;
+        
         private void Start() {
-            GameStateController.Instance.SetState(GameState.Playing);
+            _leaderBoardController = GameObject.FindGameObjectWithTag("HighScoreController").GetComponent<LeaderBoardController>();
             GameStateController.Instance.OnGameStateChanged += OnGameStateChanged;
+            GameStateController.Instance.SetState(GameState.Playing);
         }
 
         private void OnGameStateChanged(GameState newGameState) {
@@ -21,9 +25,11 @@ namespace BomberMan {
                 case GameState.Paused:
                 case GameState.GameOver:
                     DisplayUI(gameOver: true, hud: true);
+                    _leaderBoardController.DisplayLeaderBoard(ScoreController.Instance.GetScore());
                     break;
                 case GameState.GameWon:
                     DisplayUI(gameWon: true, hud: true);
+                    _leaderBoardController.DisplayLeaderBoard(ScoreController.Instance.GetScore());
                     break;
             }
         }
