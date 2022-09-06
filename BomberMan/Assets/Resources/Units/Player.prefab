@@ -108,6 +108,7 @@ MonoBehaviour:
     m_Bits: 128
   DestinationPoint: {fileID: 4352822896836710934}
   moveSpeed: 5
+  moveDuration: 0.4
   bombCount: 1
   bombRange: 3
   bombTimer: 3

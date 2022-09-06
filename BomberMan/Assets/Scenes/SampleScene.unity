@@ -882,11 +882,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   height: 10
   width: 15
+  indestructibleCount: 10
+  indestructibleSpawnChance: 0.2
   destructibleCount: 40
   destructibleSpawnChance: 0.4
   playerDestructibleSafeZoneDiameter: 2
-  indestructibleCount: 10
-  indestructibleSpawnChance: 0.2
   enemyCount: 5
   enemySpawnChance: 0.2
   playerEnemySafeZoneDiameter: 4
@@ -1256,7 +1256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3266398038255346513, guid: 60fc26e323192c542844584bb787ec83, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60fc26e323192c542844584bb787ec83, type: 3}
