@@ -56,6 +56,11 @@ namespace BomberMan {
                         ((DestructibleBlock) tile).Destroy();    
                         break;
                     }
+                    if (tile.CompareTag("Enemy")) {
+                        PlayExplosionEffect(currentX, currentY);
+                        print("Exploded on an enemy");
+                        break;
+                    }
 
                     if (tile.CompareTag("Border") || tile.CompareTag("Pillar")) {
                         break;
