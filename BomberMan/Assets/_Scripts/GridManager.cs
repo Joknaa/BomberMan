@@ -8,9 +8,14 @@ namespace BomberMan {
         [Header("Grid Dimensions")] public int height = 10;
         public int width = 15;
 
+        [Header("Indestructible Blocks")] public int indestructibleCount = 30;
+        [Range(0.0f, 1.0f)] public float indestructibleSpawnChance = 0.4f;
+
         [Header("Destructible Blocks")] public int destructibleCount = 30;
         [Range(0.0f, 1.0f)] public float destructibleSpawnChance = 0.4f;
         public int playerDestructibleSafeZoneDiameter = 2;
+        
+        
 
         [Header("Enemies")] public int enemyCount = 5;
         [Range(0.0f, 1.0f)] public float enemySpawnChance = 0.4f;
@@ -20,6 +25,7 @@ namespace BomberMan {
 
         private Camera _mainCamera;
         private Tile[,] _gridTiles;
+        private int _indestructiblesInstantiated = 0;
         private int _destructiblesInstantiated = 0;
         private int _enemiesInstantiated = 0;
         private float cameraOffset = 0.5f;
@@ -31,7 +37,9 @@ namespace BomberMan {
             _mainCamera = Camera.main;
             _gridTiles = new Tile[width, height];
 
-            GenerateGrid();
+            while (GameObject.FindGameObjectsWithTag("Enemy").Length < enemyCount) {
+                GenerateGrid();
+            }
         }
 
         #region GridGeneration
@@ -54,8 +62,7 @@ namespace BomberMan {
 
             _mainCamera.transform.position = new Vector3(width * 0.5f - 0.5f, height * 0.5f - 0.5f + cameraOffset, -10);
         }
-
-
+        
         private void GenerateTiles(int y, int x) {
             var randomTile = GetRandomTileByWeight(_tileTypes);
             GameObject tileInstance = Instantiate(randomTile, new Vector3(x, y), Quaternion.identity, transform);
@@ -70,10 +77,21 @@ namespace BomberMan {
         }
 
         private void GeneratePillars(int y, int x) {
-            bool isBorder = y == 0 || y == height - 1 || x == 0 || x == width - 1;
-            if (isBorder) return;
-            if (y % 2 == 1 || x % 2 == 1) return;
+            if (_indestructiblesInstantiated >= indestructibleCount) return; 
+            if (IsPlayerSaveZone(playerDestructibleSafeZoneDiameter, y, x)) return; 
+            if (_gridTiles[x, y] != null && !_gridTiles[x, y].IsFree()) return; 
+            if (Random.Range(0f, 1f) > indestructibleSpawnChance) return; 
+
             SetupUnite(Resources.Load<Tile>(PathVariables.Pillar).gameObject, x, y);
+            _indestructiblesInstantiated++;
+            
+
+            void GenerateAtPredeterminedLocations() {
+                bool isBorder = y == 0 || y == height - 1 || x == 0 || x == width - 1;
+                if (isBorder) return;
+                if (y % 2 == 1 || x % 2 == 1) return;
+                SetupUnite(Resources.Load<Tile>(PathVariables.Pillar).gameObject, x, y);
+            }
         }
 
         private void GenerateDestructibleBlocks(int y, int x) {

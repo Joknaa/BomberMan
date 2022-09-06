@@ -109,8 +109,8 @@ MonoBehaviour:
   DestinationPoint: {fileID: 4352822896836710934}
   moveSpeed: 5
   bombCount: 1
-  bombRange: 4
-  bombTimer: 1
+  bombRange: 3
+  bombTimer: 3
 --- !u!60 &4942866066995871909
 PolygonCollider2D:
   m_ObjectHideFlags: 0

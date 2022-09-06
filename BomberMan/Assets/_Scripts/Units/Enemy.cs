@@ -10,6 +10,7 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace BomberMan {
     public class Enemy : Unit {
+        public static bool RunAwayFromPlayer = false;
         public LayerMask MovementStopper;
         public Transform DestinationPoint;
         public float tickTime = 0.5f;
@@ -18,98 +19,70 @@ namespace BomberMan {
         public float raycastDistance = 1f;
         public int killScore = 100;
 
+        private GameObject _player;
         private Rigidbody2D _rigidbody;
         private Vector2 _moveDirection;
         private float _detectionCircleRadius = 0.2f;
         private float _tickTimer;
         private List<Vector2> _availableDirections = new List<Vector2>();
-
+        private List<Vector2> _RunAwayFromDirections = new List<Vector2>();
+        private Vector2 _lastDirection;
+        private bool _isDead;
 
         private void Start() {
             DestinationPoint.parent = null;
             _tickTimer = tickTime * (1 + Random.Range(-0.2f, 0.2f));
-
-            /*_rigidbody = GetComponent<Rigidbody2D>();
-            
-            var position = transform.position;
-             
-            var hitUp = Physics2D.Raycast(position + Vector3.up * 0.5f, Vector2.up, raycastDistance);
-            var hitDown = Physics2D.Raycast(position + Vector3.down * 0.5f, Vector2.down, raycastDistance);
-            var hitLeft = Physics2D.Raycast(position + Vector3.left * 0.5f, Vector2.left, raycastDistance);
-            var hitRight = Physics2D.Raycast(position + Vector3.right * 0.5f, Vector2.right, raycastDistance);
-
-            List<Vector3> possibleDirections = new List<Vector3>();
-
-            if (hitUp.collider == null) possibleDirections.Add(Vector2.up);
-            if (hitDown.collider == null) possibleDirections.Add(Vector2.down);
-            if (hitLeft.collider == null) possibleDirections.Add(Vector2.left);
-            if (hitRight.collider == null) possibleDirections.Add(Vector2.right);
-
-            _moveDirection = possibleDirections.Random(Vector3.zero);*/
+            _player = GameObject.FindGameObjectWithTag("Player");
         }
-        
-        
+
+
         private void Update() {
-            if(GameStateController.Instance.GetState() != GameState.Playing) return;
-            
-            _tickTimer -= Time.deltaTime;            
+            if (GameStateController.Instance.GetState() != GameState.Playing) return;
+
+            _tickTimer -= Time.deltaTime;
             if (Vector2.Distance(transform.position, DestinationPoint.position) <= 0.05f) {
                 if (_tickTimer > 0) return;
                 _tickTimer = tickTime;
 
                 GetAvailableDirections();
+                if (RunAwayFromPlayer) {
+                    ExcludePlayerDirections();
+                }
                 if (_availableDirections.Count > 0) {
-                    DestinationPoint.position += (Vector3) _availableDirections.Random();
+                    
+                    DestinationPoint.position += (Vector3)_availableDirections.Random();
                     _tickTimer = tickTime;
+                    
                 }
             }
-            
-            
 
             void GetAvailableDirections() {
                 _availableDirections.Clear();
                 _availableDirections.Add(Vector2.zero);
-                if (!Physics2D.OverlapCircle(transform.position + Vector3.up,    _detectionCircleRadius, MovementStopper)) _availableDirections.Add(Vector2.up);
-                if (!Physics2D.OverlapCircle(transform.position + Vector3.down,  _detectionCircleRadius, MovementStopper)) _availableDirections.Add(Vector2.down);
-                if (!Physics2D.OverlapCircle(transform.position + Vector3.left,  _detectionCircleRadius, MovementStopper)) _availableDirections.Add(Vector2.left);
+                if (!Physics2D.OverlapCircle(transform.position + Vector3.up, _detectionCircleRadius, MovementStopper)) _availableDirections.Add(Vector2.up);
+                if (!Physics2D.OverlapCircle(transform.position + Vector3.down, _detectionCircleRadius, MovementStopper)) _availableDirections.Add(Vector2.down);
+                if (!Physics2D.OverlapCircle(transform.position + Vector3.left, _detectionCircleRadius, MovementStopper)) _availableDirections.Add(Vector2.left);
                 if (!Physics2D.OverlapCircle(transform.position + Vector3.right, _detectionCircleRadius, MovementStopper)) _availableDirections.Add(Vector2.right);
+            }
+            
+            void ExcludePlayerDirections() {
+                var playerPosition = _player.transform.position;
+                var enemyPosition = transform.position;
+                var direction = (playerPosition - enemyPosition);
+            
+                _RunAwayFromDirections.Clear();
+                _RunAwayFromDirections.Add(direction.x > 0 ? Vector2.right : direction.x < 0 ? Vector2.left : Extensions.GetRandomDirection(right: true, left: true, zero: true));
+                _RunAwayFromDirections.Add(direction.y > 0 ? Vector2.up : direction.y < 0 ? Vector2.down : Extensions.GetRandomDirection(up: true, down: true, zero: true));
+            
+                _availableDirections.Subtract(_RunAwayFromDirections);
             }
         }
         
         private void FixedUpdate() {
-            if(GameStateController.Instance.GetState() != GameState.Playing) return;
-
-            Move();
-        }
-
-        private void Move() {
+            if (GameStateController.Instance.GetState() != GameState.Playing) return;
             transform.position = Vector3.MoveTowards(transform.position, DestinationPoint.position, moveSpeed * Time.deltaTime);
         }
-        
-        /*private void FixedUpdate() {
-            
-            
-            
-            /*var position = _rigidbody.position;
-            _rigidbody.MovePosition(position + _moveDirection * (moveSpeed * Time.fixedDeltaTime));
-            FindFreeDirection();
-            
-            void FindFreeDirection() {
-                var hit = Physics2D.Raycast(position + (Vector3)_moveDirection * 0.5f, _moveDirection, raycastDistance);
-                if (hit.collider != null && CollidedWithObstacle()) {
-                    _moveDirection = -_moveDirection;
-                }
-            
-                bool CollidedWithObstacle() {
-                    GameObject other = hit.collider.gameObject;
-                    return other.CompareTag("Border") ||
-                           other.CompareTag("Pillar") ||
-                           other.CompareTag("Destructible") ||
-                           other.CompareTag("Bomb") ||
-                           other.CompareTag("Player");
-                }
-            }#1#
-        }*/
+
 
         #region Collision Detection
 
@@ -127,14 +100,17 @@ namespace BomberMan {
 
         #endregion
 
-
         public void OnDeath() {
+            _isDead = true;
             EnemyCount--;
             if (EnemyCount == 0) GameStateController.Instance.SetState(GameState.GameWon);
-            
+            if (EnemyCount == 2) RunAwayFromPlayer = true;
+
             print("OnDeath .. " + EnemyCount + " remains");
             ScoreController.Instance.AddScore(killScore);
             Destroy(gameObject);
         }
+
+        public bool IsDead() => _isDead;
     }
 }

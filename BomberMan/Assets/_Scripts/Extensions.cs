@@ -56,20 +56,40 @@ namespace OknaaEXTENSIONS {
             }
             return list;
         }
+        
+        public static void AddRange<T>(this IList<T> list, IList<T> anotherList) {
+            foreach (var element in anotherList) {
+                list.Add(element);
+            }
+        }
 
         /// <summary>
         /// Removes the elements of one list from another list
         /// </summary>
-        /// <param name="list">this list we are gonna remove from</param>
+        /// <param name="sourceList">this list we are gonna remove from</param>
         /// <param name="subtractedList">the list we are gonna remove</param>
         /// <returns></returns>
-        public static IList<T> Subtract<T>(this IList<T> list, IList<T> subtractedList) {
+        public static void Subtract<T>(this IList<T> sourceList, IList<T> subtractedList) {
+            if (subtractedList == null || subtractedList.Count == 0) return;
+            if (sourceList == null || sourceList.Count == 0) return;
+        
             List<T> newList = new List<T>();
-            foreach (var element in list) {
+            foreach (var element in sourceList) {
                 if (!subtractedList.Contains(element)) newList.Add(element);
             }
-            return newList;
+            sourceList.Clear();
+            sourceList.AddRange(newList);
         }
+        
+        
+        public static Vector2 GetRandomDirection(bool up = false, bool down = false, bool left = false, bool right = false, bool zero = false) {
+            var directions = new List<Vector2>();
+            if (up) directions.Add(Vector2.up);
+            if (down) directions.Add(Vector2.down);
+            if (left) directions.Add(Vector2.left);
+            if (right) directions.Add(Vector2.right);
+            return directions.Random();
+        } 
         
     }
 }

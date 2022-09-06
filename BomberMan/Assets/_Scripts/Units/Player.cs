@@ -13,6 +13,7 @@ namespace BomberMan {
         public int bombTimer;
         
         private float _detectionCircleRadius = 0.2f;
+        private bool _isDead;
 
         private void Start() {
             DestinationPoint.parent = null;
@@ -60,9 +61,12 @@ namespace BomberMan {
         }
 
         public void OnDeath() {
+            _isDead = true;
             if(GameStateController.Instance.GetState() != GameState.Playing) return;
             GameStateController.Instance.SetState(GameState.GameOver);
             Destroy(gameObject);
         }
+
+        public bool IsDead() => _isDead;
     }
 }

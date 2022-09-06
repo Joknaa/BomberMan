@@ -164,7 +164,7 @@ MonoBehaviour:
     m_Bits: 128
   DestinationPoint: {fileID: 4731024969051954894}
   tickTime: 0.8
-  moveSpeed: 2
+  moveSpeed: 3
   raycastDistance: 0.05
   killScore: 100
 --- !u!50 &1252269879765706046
