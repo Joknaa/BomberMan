@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace BomberMan {
     public class UIController : MonoBehaviour {
-        public GameObject InGameHUD;
-        public GameObject GameOverPopUp;
-        public GameObject GameWonPopUp;
+        public GameObject inGameHUD;
+        public GameObject pausePopUp;
+        public GameObject gameOverPopUp;
+        public GameObject gameWonPopUp;
         
         private LeaderBoardController _leaderBoardController;
         
@@ -22,23 +23,24 @@ namespace BomberMan {
                     DisplayUI(hud: true);
                     break;
                 case GameState.Paused:
+                    DisplayUI(hud: true, paused: true);
+                    break;
                 case GameState.GameOver:
                     DisplayUI(gameOver: true, hud: true);
-                    print("GameOver");
                     _leaderBoardController.DisplayLeaderBoard(ScoreController.Instance.GetScore());
                     break;
                 case GameState.GameWon:
                     DisplayUI(gameWon: true, hud: true);
-                    print("GameWon");
-                    _leaderBoardController.DisplayLeaderBoard(ScoreController.Instance.GetScore());
+                     _leaderBoardController.DisplayLeaderBoard(ScoreController.Instance.GetScore());
                     break;
             }
         }
 
-        private void DisplayUI(bool startingMenu = false, bool hud = false, bool gameOver = false, bool gameWon = false) {
-            InGameHUD.SetActive(hud);
-            GameOverPopUp.SetActive(gameOver);
-            GameWonPopUp.SetActive(gameWon);
+        private void DisplayUI(bool startingMenu = false, bool hud = false, bool paused = false, bool gameOver = false, bool gameWon = false) {
+            inGameHUD.SetActive(hud);
+            pausePopUp.SetActive(paused);
+            gameOverPopUp.SetActive(gameOver);
+            gameWonPopUp.SetActive(gameWon);
         }
             
         

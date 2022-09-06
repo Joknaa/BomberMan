@@ -1,38 +1,38 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using OknaaEXTENSIONS;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using Vector2 = UnityEngine.Vector2;
-using Vector3 = UnityEngine.Vector3;
 
 namespace BomberMan {
     public class Enemy : Unit {
+        public static event Action<int> OnEnemyKilled;
         public static bool RunAwayFromPlayer = false;
+        public static int EnemyCount = 5;
+        private static int _enemiesLeft;
+
         public LayerMask MovementStopper;
         public Transform DestinationPoint;
         public float tickTime = 0.5f;
-        public static int EnemyCount = 5;
         public int moveSpeed;
         public float raycastDistance = 1f;
         public int killScore = 100;
 
+        
+        private readonly List<Vector2> _availableDirections = new List<Vector2>();
+        private readonly List<Vector2> _runAwayFromDirections = new List<Vector2>();
+        private readonly float _detectionCircleRadius = 0.2f;
         private GameObject _player;
-        private Rigidbody2D _rigidbody;
-        private Vector2 _moveDirection;
-        private float _detectionCircleRadius = 0.2f;
         private float _tickTimer;
-        private List<Vector2> _availableDirections = new List<Vector2>();
-        private List<Vector2> _RunAwayFromDirections = new List<Vector2>();
-        private Vector2 _lastDirection;
         private bool _isDead;
 
         private void Start() {
+            RunAwayFromPlayer = false;
             DestinationPoint.parent = null;
+            _enemiesLeft = EnemyCount;
             _tickTimer = tickTime * (1 + Random.Range(-0.2f, 0.2f));
             _player = GameObject.FindGameObjectWithTag("Player");
+            OnEnemyKilled?.Invoke(_enemiesLeft);
         }
 
 
@@ -70,11 +70,11 @@ namespace BomberMan {
                 var enemyPosition = transform.position;
                 var direction = (playerPosition - enemyPosition);
             
-                _RunAwayFromDirections.Clear();
-                _RunAwayFromDirections.Add(direction.x > 0 ? Vector2.right : direction.x < 0 ? Vector2.left : Extensions.GetRandomDirection(right: true, left: true, zero: true));
-                _RunAwayFromDirections.Add(direction.y > 0 ? Vector2.up : direction.y < 0 ? Vector2.down : Extensions.GetRandomDirection(up: true, down: true, zero: true));
+                _runAwayFromDirections.Clear();
+                _runAwayFromDirections.Add(direction.x > 0 ? Vector2.right : direction.x < 0 ? Vector2.left : Extensions.GetRandomDirection(right: true, left: true, zero: true));
+                _runAwayFromDirections.Add(direction.y > 0 ? Vector2.up : direction.y < 0 ? Vector2.down : Extensions.GetRandomDirection(up: true, down: true, zero: true));
             
-                _availableDirections.Subtract(_RunAwayFromDirections);
+                _availableDirections.Subtract(_runAwayFromDirections);
             }
         }
         
@@ -83,32 +83,25 @@ namespace BomberMan {
             transform.position = Vector3.MoveTowards(transform.position, DestinationPoint.position, moveSpeed * Time.deltaTime);
         }
 
-
-        #region Collision Detection
-
-        private void OnCollisionEnter2D(Collision2D collision) {
-            if (collision.gameObject.CompareTag("Player")) {
-                GameStateController.Instance.SetState(GameState.GameOver);
-            }
-        }
-
-        private void OnTriggerEnter2D(Collider2D col) {
-            if (col.CompareTag("Explosion")) {
-                Destroy(gameObject);
-            }
-        }
-
-        #endregion
-
+        
         public void OnDeath() {
             _isDead = true;
-            EnemyCount--;
-            if (EnemyCount == 0) GameStateController.Instance.SetState(GameState.GameWon);
-            if (EnemyCount == 2) RunAwayFromPlayer = true;
+            _enemiesLeft--;
 
-            print("OnDeath .. " + EnemyCount + " remains");
             ScoreController.Instance.AddScore(killScore);
+            OnEnemyKilled?.Invoke(_enemiesLeft);
+            
+            if (_enemiesLeft == 0) GameStateController.Instance.SetState(GameState.GameWon);
+            if (_enemiesLeft == 2) RunAwayFromPlayer = true;
+
+            print("OnDeath .. " + _enemiesLeft + " remains");
             Destroy(gameObject);
+        }
+        
+        private void OnTriggerEnter2D(Collider2D col) {
+            if (col.CompareTag("Player")) {
+                GameStateController.Instance.SetState(GameState.GameOver);
+            }
         }
 
         public bool IsDead() => _isDead;

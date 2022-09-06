@@ -23,5 +23,9 @@ namespace BomberMan {
         public GameState GetState() {
             return _currentState;
         }
+
+        public void TogglePause() {
+            SetState(_currentState == GameState.Playing ? GameState.Paused : GameState.Playing);
+        }
     }
 }

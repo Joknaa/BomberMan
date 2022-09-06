@@ -1,18 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 namespace ScoreSystem {
     public class LeaderBoard : MonoBehaviour {
         public GameObject container;
         public PlayerScore othersEntry;
         public PlayerScore playerEntry;
+        public Button closeButton; 
 
         private PlayerScore _playerScore;
         private LeaderBoardData _leaderBoardData;
         private PlayerScoreData _newPlayerScoreData;
         private bool _isHighScore;
+
+        private void Start() {
+            closeButton.onClick.AddListener(OnCloseButtonPressed);
+        }
+
+
 
         public void Display(LeaderBoardData leaderBoardData, PlayerScoreData newPlayerScoreData) {
             _leaderBoardData = leaderBoardData;
@@ -70,10 +79,11 @@ namespace ScoreSystem {
             }
         }
         
-        public void NextButtonClick() {
+        
+        private void OnCloseButtonPressed() {
             if (_playerScore != null) _playerScore.UpdatePlayerScoreName();
             _leaderBoardData.Save();
+            gameObject.SetActive(false);
         }
-
     }
 }

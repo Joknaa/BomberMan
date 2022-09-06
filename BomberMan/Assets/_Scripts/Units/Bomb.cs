@@ -62,7 +62,7 @@ namespace BomberMan {
                     }
                 }
             }
-            _gridManager.Player.bombCount++;
+            _gridManager.Player.FreeBomb();
             Destroy(gameObject);
         }
 
