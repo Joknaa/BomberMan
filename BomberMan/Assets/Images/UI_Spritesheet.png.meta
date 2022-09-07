@@ -75,6 +75,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -153,6 +154,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -533,6 +546,24 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      UI_Button_Violet: 8573997405233935189
+      UI_Finger: -4986891598768583371
+      UI_BigBG: -3399796734517453899
+      UI_Button_Play: 3235501342764181924
+      UI_Line_Short: -4942491328358600374
+      UI_Line_Long: 7760071364760250280
+      UI_Spritesheet_6: -1632086553533448079
+      UI_BG_Blue: 8173116967901399196
+      UI_SpeechBubble: -6775871385405830814
+      UI_BG_Red: 4304206335159286743
+      UI_Face_Happy: 8128383176813303651
+      UI_Face_Neutral: -5873813469876823830
+      UI_Face_Angry: 2302632168600815343
+      UI_Button_Pause: -3650552198749805955
+      UI_BG_Green: 1466454941377667862
+      UI_Spritesheet_5: 3865506561830301395
+      UI_BG_Yellow: 243746525723318604
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

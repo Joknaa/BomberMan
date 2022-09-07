@@ -78,6 +78,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -156,6 +157,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -557,6 +570,25 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Tile_Water00: -537749870668139058
+      Tile_Enemy_02: 7477827516038983822
+      Tile_Grass02: -5062486230716756072
+      Tile_Enemy_05: 9045646400296435942
+      Tile_DestructibleBlock_00: -8637159173488095169
+      Tile_Player: 857779327251732012
+      Tile_Wall_00: -6765242926017629268
+      Tile_Enemy_03: 3930821917377472818
+      Tile_Grass00: -8377130690987618698
+      Tiles_7: 1561205615984820651
+      Tile_Grass01: -4684333735789482159
+      Tile_Enemy_04: -47299315171432025
+      Tile_Highlight: -6833445872158455971
+      Tile_Pillar: 8933607801220796041
+      Tile_Enemy_01: 3825752689756085014
+      Tile_Bomb: -8955812619259062215
+      Tile_Grass03: 4099902767569298868
+      Tile_Tree00: 7223950226953391895
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
